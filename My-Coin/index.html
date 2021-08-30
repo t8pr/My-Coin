@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="descripton" content="My Coin It's The Best WebSite To Show You Bitcoin Price Try It !">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="bitcoin.png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100&family=Overlock+SC&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100&display=swap" rel="stylesheet">
+    <title>MY COIN</title>
+</head>
+<body>
+    <div class="title-text">
+        <h1>My Coin</h1>
+        <hr>
+    </div>
+    <div class="card">
+        <div class="container">
+            <div class="live">
+                <img class="live-server" src="live.png">
+            </div>
+            <div class="btc-face">
+                <img class="wave" src="bitcoin.png">
+                <h1>BitCoin Price Now :<br> <span id="price"></span>:<span id="currency">--)</span></h1>
+                <div class="toggles">
+                    <div class="page__toggle">
+                        <label class="toggle">
+                            <input class="toggle__input choose" type="radio" name="price" value='USD'>
+                            <span class="toggle__label">
+                            <span class="toggle__text">USD</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="page__toggle">
+                        <label class="toggle">
+                            <input class="toggle__input choose" type="radio" name="price" value='EUR'>
+                            <span class="toggle__label">
+                            <span class="toggle__text">EUR</span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <button id="btn">Check Price</button>
+            </div>
+        </div>
+    </div>
+    <p class="dev">For Developers<a href="https://api.coindesk.com/v1/bpi/currentprice.json" target="blank"> <br> - api connection -</a></p>
+    <h1 class="made" > Powerd By : <a href="https://instagram.com/t8pr" target="_blank" >8PR</a></h1>
+
+<!---- JavaScript ---->
+<script>
+    const btn = document.getElementById('btn');
+    const displayPrice = document.getElementById('price');
+    var currentCurrency = document.getElementById('currency');
+    const radiobtn = document.getElementsByClassName('choose');
+    var currency  = "";
+
+    for (let i = 0; i < radiobtn.length; i++) {
+        radiobtn[i].addEventListener('click', function(){
+        currency = this.value;
+        currentCurrency.innerHTML = this.value;
+        })
+    }
+    btn.addEventListener('click', function() {
+        const XHR = new XMLHttpRequest();
+
+        XHR.onreadystatechange = function() {
+        if (XHR.readyState == 4 && XHR.status == 200) {
+            let price = JSON.parse(XHR.responseText).bpi[currency].rate;
+            displayPrice.innerHTML = price;
+        }
+        }
+        XHR.open('GET', 'https://api.coindesk.com/v1/bpi/currentprice.json');
+        XHR.send();
+    })
+</script>
+<script type="text/javascript" src="vanilla-tilt.js"></script>
+<script>
+    VanillaTilt.init(document.querySelectorAll(".wave"), {
+    max: 25,
+    speed: 400,
+    glare: true,
+    "max-glare": 1,
+});
+</script>
+</body>
+</html>
